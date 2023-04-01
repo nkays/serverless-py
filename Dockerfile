@@ -19,7 +19,7 @@ RUN apt-get update && \
 # create a virtualenv
 RUN python3 -m venv /opt/venv && \
     /opt/venv/bin/python -m pip install pip --upgrade && \
-    /opt/venv/bin/python -m pip install /app/requirements.txt
+    /opt/venv/bin/python -m pip install -r /app/requirements.txt
 
 # purge unused
 RUN apt-get remove -y --purge make gcc build-essential \ 
