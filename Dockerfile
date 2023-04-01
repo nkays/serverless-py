@@ -4,7 +4,7 @@ FROM python:3.11-slim
 # which code and docs
 # COPY local_dir container_dir
 # COPY requirements.txt /app/requirements.txt # if requirements is not in src folder
-COPY ./src /app/
+COPY . /app
 WORKDIR /app/
 
 #defalt installs
@@ -21,5 +21,14 @@ RUN python3 -m venv /opt/venv && \
     /opt/venv/bin/python -m pip install pip --upgrade && \
     /opt/venv/bin/python -m pip install /app/requirements.txt
 
-    # run the app
-    CMD ["./entrypoint.sh"]
+# purge unused
+RUN apt-get remove -y --purge make gcc build-essential \ 
+    && apt-get autoremove -y \ 
+    && rm -rf /var/lib/apt/lists/* 
+
+# make entrypoint executable
+RUN chmod +x entrypoint.sh 
+
+
+# run the app
+CMD ["./entrypoint.sh"]
