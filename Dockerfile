@@ -31,4 +31,4 @@ RUN chmod +x ./src/entrypoint.sh
 
 
 # run the app
-CMD ["./entrypoint.sh"]
+CMD ["./src/entrypoint.sh"]
