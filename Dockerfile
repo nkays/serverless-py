@@ -27,7 +27,7 @@ RUN apt-get remove -y --purge make gcc build-essential \
     && rm -rf /var/lib/apt/lists/* 
 
 # make entrypoint executable
-RUN chmod +x entrypoint.sh 
+RUN chmod +x ./src/entrypoint.sh 
 
 
 # run the app
