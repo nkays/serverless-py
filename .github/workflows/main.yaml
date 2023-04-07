@@ -27,7 +27,7 @@ jobs:
           MODE: "github actions"
         run: |
           pytest src/tests.py
-  build_deploy:
+  build_push:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -40,3 +40,5 @@ jobs:
       - name: Build container image
         run: |
           docker biuild -f Dockerfile -t serverless-py .
+          docker tag serverless-py us-central1-docker.pkg.dev/nkays-serverless-py-2023/serverless-py-repo/serverless-py:latest
+          docker push us-central1-docker.pkg.dev/nkays-serverless-py-2023/serverless-py-repo/serverless-py --all-tags
