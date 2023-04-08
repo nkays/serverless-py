@@ -57,4 +57,4 @@ jobs:
           -image=${{secrets.CONTAINER_IMAGE_URL}}:latest \
           --allow-unauthenticated \
           --region=${{secrets.GCLOUD_REGION}} \
-          --project=${{sectrets.GCLOUD_PROJECT_ID}}
+          --project=${{sectrets.GCLOUD_PROJECT_ID}}!
