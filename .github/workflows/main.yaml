@@ -48,7 +48,7 @@ jobs:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
       - name: Build container image
         run: |
-          docker biuild -f Dockerfile -t serverless-py .
+          docker build -f Dockerfile -t serverless-py .
           docker tag serverless-py ${{secrets.CONTAINER_IMAGE_URL}}:latest
           docker tag serverless-py ${{secrets.CONTAINER_IMAGE_URL}}:v1 
           gcloud auth configure-docker ${{secrets.GCLOUD_REGION}}-docker.pkg.dev
