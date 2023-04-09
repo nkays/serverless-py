@@ -56,7 +56,7 @@ jobs:
       - name: Deploy container to Cloud Run
         run: |
           gcloud run deploy serverless-py-run \
-          -image=${{secrets.CONTAINER_IMAGE_URL}}:latest \
+          --image=${{secrets.CONTAINER_IMAGE_URL}}:latest \
           --allow-unauthenticated \
           --region=${{secrets.GCLOUD_REGION}} \
           --project=${{secrets.GCLOUD_PROJECT_ID}}
