@@ -2,6 +2,7 @@ name: Test, Build and Push to Google Cloud run
 
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "main"
@@ -17,7 +18,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkkout code
+      - name: Checkout code
         uses: actions/checkout@v3 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -26,6 +27,7 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install -r src/requirements.txt
+          python -m pip install pytest
       - name: Run tests
         env:
           MODE: "github actions"
@@ -49,14 +51,14 @@ jobs:
       - name: Build container image
         run: |
           docker build -f Dockerfile -t serverless-py .
-          docker tag serverless-py ${{secrets.CONTAINER_IMAGE_URL}}:latest
-          docker tag serverless-py ${{secrets.CONTAINER_IMAGE_URL}}:v1 
-          gcloud auth configure-docker ${{secrets.GCLOUD_REGION}}-docker.pkg.dev
-          docker push $secrets.CONTAINER_IMAGE_URL}} --all-tags
+          docker tag serverless-py ${{ secrets.CONTAINER_IMAGE_URL }}:latest
+          docker tag serverless-py ${{ secrets.CONTAINER_IMAGE_URL }}:v1 
+          gcloud auth configure-docker ${{ secrets.GCLOUD_REGION }}-docker.pkg.dev
+          docker push ${{ secrets.CONTAINER_IMAGE_URL }} --all-tags
       - name: Deploy container to Cloud Run
         run: |
           gcloud run deploy serverless-py-run \
-          --image=${{secrets.CONTAINER_IMAGE_URL}}:latest \
+          --image=${{ secrets.CONTAINER_IMAGE_URL }}:latest \
           --allow-unauthenticated \
-          --region=${{secrets.GCLOUD_REGION}} \
-          --project=${{secrets.GCLOUD_PROJECT_ID}}
+          --region=${{ secrets.GCLOUD_REGION }} \
+          --project=${{ secrets.GCLOUD_PROJECT_ID }}
